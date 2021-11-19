@@ -22,7 +22,6 @@ app.post("/mens", async (req, res) => {
         //     "score": "1477"
         // })
         // addingMensRecords.save();
-
         const addingMensRecords = new MensRanking(req.body)
         console.log(req.body);
         const insertMens = await addingMensRecords.save();
@@ -31,6 +30,28 @@ app.post("/mens", async (req, res) => {
         res.status(400).send(e);
     }
 })
+
+// handling read data using get method
+app.get("/mens", async (req, res) => {
+    try{
+        const getMens = await MensRanking.find({});
+        res.status(201).send(getMens);
+    }catch(e){
+        res.send(e);
+    }
+})
+
+// handling individual data using get
+app.get("/mens/:id", async (req, res) => {
+    try{
+        const _id = req.params.id;
+        const getMen = await MensRanking.findById(_id);
+        res.status(201).send(getMen);
+    }catch(e){
+        res.send(e);
+    }
+})
+
 
 
 app.get("/", async (req, res)=> {
