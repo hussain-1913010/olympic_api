@@ -69,6 +69,19 @@ app.patch("/mens/:id", async (req, res) => {
 })
 
 
+// handling delete using delete method
+app.delete("/mens/:id", async (req, res) => {
+    try{
+        const _id = req.params.id;
+        const getMen = await MensRanking.findByIdAndDelete(_id);
+        res.send(getMen);
+    }catch(e){
+        // 500 means server error 400 means bad request
+        res.status(500).send(e);
+    }
+})
+
+
 app.get("/", async (req, res)=> {
     res.send("Hello from home");
 })
