@@ -35,9 +35,9 @@ app.post("/mens", async (req, res) => {
 app.get("/mens", async (req, res) => {
     try{
         const getMens = await MensRanking.find({});
-        res.status(201).send(getMens);
+        res.send(getMens);
     }catch(e){
-        res.send(e);
+        res.status(400).send(e);
     }
 })
 
@@ -46,12 +46,27 @@ app.get("/mens/:id", async (req, res) => {
     try{
         const _id = req.params.id;
         const getMen = await MensRanking.findById(_id);
-        res.status(201).send(getMen);
+        res.send(getMen);
     }catch(e){
-        res.send(e);
+        res.status(400).send(e);
     }
 })
 
+
+// put vs patch: put is total change, patch is few key value change
+// handling data using patch
+app.patch("/mens/:id", async (req, res) => {
+    try{
+        const _id = req.params.id;
+        const getMen = await MensRanking.findByIdAndUpdate(_id, req.body, {
+            new: true
+        });
+        res.send(getMen);
+    }catch(e){
+        // 500 means server error 400 means bad request
+        res.status(500).send(e);
+    }
+})
 
 
 app.get("/", async (req, res)=> {
